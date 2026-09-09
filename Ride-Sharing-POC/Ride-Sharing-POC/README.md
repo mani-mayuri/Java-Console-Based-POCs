@@ -223,9 +223,18 @@ Display Booking Details
 ================================================
 
 ------------------------------------------------
-1.  Register Customer
-2.  Register Driver
-...
+1. Register Customer
+2. Register Driver
+3. View Customers
+4. View Drivers
+5. Book Ride
+6. View Available Drivers
+7. View Ride Details
+8. Cancel Ride
+9. Complete Ride
+10. View Customer Ride History
+11. View Driver Ride History
+12. Calculate Ride Fare
 13. Exit
 ------------------------------------------------
 Enter your choice: 7
@@ -270,63 +279,6 @@ java -cp bin com.ridesharing.RideSharingApplication
 
 No Maven, no Gradle, no database, no external JARs — just the JDK.
 
-## 14. Interview Explanation
-
-This project is designed so every answer below can be pointed to directly in
-the code:
-
-1. **Where did you use Encapsulation?** — All model classes (`Customer`,
-   `Driver`, `RideBooking`, `Booking`) use `private` fields with validating
-   getters/setters.
-2. **Where did you use Abstraction?** — `RideBooking` is `abstract` and
-   declares `calculateFare()`/`estimatedArrivalTime()` without implementing
-   them.
-3. **Where did you use Inheritance?** — `StandardRide`, `PremiumRide`,
-   `CarpoolRide` all `extends RideBooking`.
-4. **Where did you use Polymorphism?** — `bookRide()` in
-   `RideSharingApplication` assigns a `StandardRide`/`PremiumRide`/`CarpoolRide`
-   object to a `RideBooking` reference and calls `calculateFare()`.
-5. **What is runtime polymorphism in your project?** — The JVM decides which
-   overridden `calculateFare()`/`estimatedArrivalTime()` to run based on the
-   actual object type at runtime, not the reference type.
-6. **Why did you create RideBooking as an abstract class?** — To force every
-   ride type to provide its own fare formula while sharing common fields/
-   behavior, and to prevent instantiating a "generic" ride that makes no
-   sense on its own.
-7. **Why did you use ArrayList?** — For simple ordered collections
-   (customers, drivers, rides, booking history) that are mostly appended to
-   and iterated over.
-8. **Why did you use HashMap?** — To retrieve a `Booking` by its unique
-   `bookingId` in O(1) instead of scanning a list (`BookingService`).
-9. **Why did you use HashSet?** — To guarantee customer/driver IDs are
-   unique — a `Set` rejects duplicates automatically.
-10. **Why did you use Collections instead of arrays?** — Collections resize
-    dynamically (no fixed capacity), and offer built-in methods (`add`,
-    `remove`, `contains`, `get`) instead of manual index management.
-11. **Where did you use method overriding?** — `calculateFare()` and
-    `estimatedArrivalTime()` in each `RideBooking` subclass.
-12. **Where did you use method overloading?** — `applyPromoCode(double
-    percentage)` and `applyPromoCode(String promoCode)` in `RideBooking`.
-13. **Where did you use constructors?** — Every model class has a constructor
-    that validates and initializes its fields (e.g., `Customer`, `Driver`,
-    `RideBooking` and its subclasses).
-14. **Where did you use exception handling?** — Custom checked exceptions
-    (`InvalidRideException`, `DriverNotAvailableException`,
-    `BookingNotFoundException`) are thrown by the service layer and caught in
-    `RideSharingApplication`.
-15. **How is a driver assigned?** — `DriverService.findAvailableDriver()`
-    scans the driver list for the first driver whose `available` flag is
-    `true`, then `assignDriver()` marks them unavailable.
-16. **How is fare calculated?** — Each `RideBooking` subclass implements
-    `calculateFare()` with its own rate; `getFinalFare()` in the parent then
-    applies any promo-code discount.
-17. **How do you prevent duplicate IDs?** — Customer and driver IDs are
-    tracked in a `HashSet<Integer>`, which silently rejects duplicate
-    additions, and IDs are also auto-generated sequentially so users never
-    manually enter one.
-18. **How is booking history maintained?** — `BookingService` keeps every
-    `Booking` ever created in an `ArrayList<Booking>` (append-only), separate
-    from the `HashMap` used for fast lookup of *active* bookings.
 
 ## 15. Future Enhancements
 
